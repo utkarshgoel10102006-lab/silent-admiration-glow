@@ -124,6 +124,8 @@ export function MusicPlayer() {
       ? "playing — tu jaane na"
       : "paused";
 
+  if (!mounted) return null;
+
   return (
     <>
       <div
