@@ -5,6 +5,7 @@ import { Petals } from "@/components/Petals";
 import { HeartParticles } from "@/components/HeartParticles";
 import { CursorGlow } from "@/components/CursorGlow";
 import { PhotoFrame } from "@/components/PhotoFrame";
+import { MusicPlayer } from "@/components/MusicPlayer";
 import pari1 from "@/assets/pari1.png";
 import pari2 from "@/assets/pari2.png";
 import pari3 from "@/assets/pari3.png";
@@ -66,6 +67,7 @@ function Index() {
   return (
     <main className="relative min-h-screen overflow-x-hidden">
       <CursorGlow />
+      <MusicPlayer />
 
       <AnimatePresence mode="wait">
         {!entered ? (
