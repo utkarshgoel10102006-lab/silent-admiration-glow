@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 
-const VIDEO_ID = "e6XOayuFTFE"; // Tu Jaane Na — Atif Aslam
+const VIDEO_ID = "COCVnAL6VBo"; // Aram Ata Hai Deedar Se Tere (Ek Lamha) Slowed + Reverb
 
 declare global {
   interface Window {
@@ -121,7 +121,7 @@ export function MusicPlayer() {
   const label = muted
     ? "tap to hear ♡"
     : playing
-      ? "playing — tu jaane na"
+      ? "playing — aram ata hai"
       : "paused";
 
   if (!mounted) return null;
