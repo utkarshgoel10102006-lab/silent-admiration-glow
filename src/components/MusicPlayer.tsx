@@ -12,9 +12,14 @@ declare global {
 }
 
 export function MusicPlayer() {
+  const [mounted, setMounted] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [muted, setMuted] = useState(true);
   const playerRef = useRef<any>(null);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     const init = () => {
@@ -118,6 +123,8 @@ export function MusicPlayer() {
     : playing
       ? "playing — tu jaane na"
       : "paused";
+
+  if (!mounted) return null;
 
   return (
     <>
