@@ -124,7 +124,10 @@ function Index() {
                 transition={{ duration: 1.4, delay: 2 }}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.97 }}
-                onClick={() => setEntered(true)}
+                onClick={() => {
+                  window.__loveMusic?.play();
+                  setEntered(true);
+                }}
                 className="group relative mt-12 inline-flex items-center gap-3 rounded-full glass px-10 py-5 text-base tracking-widest text-foreground transition"
                 style={{ animation: "pulse-glow 3s ease-in-out infinite" }}
               >
