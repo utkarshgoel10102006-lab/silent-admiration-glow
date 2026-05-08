@@ -33,31 +33,19 @@ export const Route = createFileRoute("/")({
 const photos = [
   {
     src: pari1,
-    shayari: [
-      "Tumhe dekhkar lagta hai jaise",
-      "khuda ne fursat se koi dua likhi ho…",
-    ],
+    shayari: ["Tumhe dekhkar lagta hai jaise", "khuda ne fursat se koi dua likhi ho…"],
   },
   {
     src: pari2,
-    shayari: [
-      "Chehre par itni saadgi lekar bhi",
-      "itna khoobsurat kaise dikha jaata hai koi…",
-    ],
+    shayari: ["Chehre par itni saadgi lekar bhi", "itna khoobsurat kaise dikha jaata hai koi…"],
   },
   {
     src: pari3,
-    shayari: [
-      "Teri muskurahat mein shor nahi hota,",
-      "phir bhi dil poora sun leta hai…",
-    ],
+    shayari: ["Teri muskurahat mein shor nahi hota,", "phir bhi dil poora sun leta hai…"],
   },
   {
     src: pari4,
-    shayari: [
-      "Tumhara hona hi kaafi hai,",
-      "kuch lafz aksar chhote pad jaate hain…",
-    ],
+    shayari: ["Tumhara hona hi kaafi hai,", "kuch lafz aksar chhote pad jaate hain…"],
   },
 ];
 
@@ -131,15 +119,10 @@ function Index() {
                 className="group relative mt-12 inline-flex items-center gap-3 rounded-full glass px-10 py-5 text-base tracking-widest text-foreground transition"
                 style={{ animation: "pulse-glow 3s ease-in-out infinite" }}
               >
-                <span
-                  style={{ fontFamily: "var(--font-serif)" }}
-                  className="font-light italic"
-                >
+                <span style={{ fontFamily: "var(--font-serif)" }} className="font-light italic">
                   Ek Baar Zaroor Dekho
                 </span>
-                <span className="text-rose transition group-hover:translate-x-1">
-                  →
-                </span>
+                <span className="text-rose transition group-hover:translate-x-1">→</span>
               </motion.button>
 
               <motion.p
@@ -214,13 +197,7 @@ function Index() {
             </section>
 
             {photos.map((p, i) => (
-              <PhotoFrame
-                key={i}
-                src={p.src}
-                shayari={p.shayari}
-                index={i}
-                reverse={i % 2 === 1}
-              />
+              <PhotoFrame key={i} src={p.src} shayari={p.shayari} index={i} reverse={i % 2 === 1} />
             ))}
 
             {/* Final */}
@@ -238,9 +215,7 @@ function Index() {
                 viewport={{ once: true }}
                 transition={{ duration: 2 }}
               >
-                <p className="mb-6 text-xs uppercase tracking-[0.5em] text-rose/70">
-                  — bas itna —
-                </p>
+                <p className="mb-6 text-xs uppercase tracking-[0.5em] text-rose/70">— bas itna —</p>
                 <h3
                   style={{ fontFamily: "var(--font-hindi)" }}
                   className="text-4xl leading-snug text-blush md:text-6xl text-glow"
@@ -259,7 +234,11 @@ function Index() {
                   animate={{ scale: [1, 1.15, 1, 1.08, 1] }}
                   transition={{ duration: 2.4, repeat: Infinity }}
                 >
-                  <svg viewBox="0 0 24 24" className="h-full w-full" style={{ filter: "drop-shadow(0 0 20px oklch(0.7 0.28 12))" }}>
+                  <svg
+                    viewBox="0 0 24 24"
+                    className="h-full w-full"
+                    style={{ filter: "drop-shadow(0 0 20px oklch(0.7 0.28 12))" }}
+                  >
                     <path
                       d="M12 21s-7-4.5-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9z"
                       fill="oklch(0.7 0.28 12)"
