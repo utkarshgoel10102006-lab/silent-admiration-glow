@@ -1,95 +1,58 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-
-const VIDEO_ID = "COCVnAL6VBo"; // Aram Ata Hai Deedar Se Tere (Ek Lamha) Slowed + Reverb
+import loveSong from "@/assets/love-song.webm";
 
 declare global {
   interface Window {
-    YT: any;
-    onYouTubeIframeAPIReady: () => void;
-    __loveMusic?: { unmute: () => void; toggle: () => void };
+    __loveMusic?: { play: () => void; toggle: () => void };
   }
 }
 
 export function MusicPlayer() {
   const [mounted, setMounted] = useState(false);
   const [playing, setPlaying] = useState(false);
-  const [muted, setMuted] = useState(true);
-  const playerRef = useRef<any>(null);
+  const [needsTap, setNeedsTap] = useState(true);
+  const audioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
   useEffect(() => {
-    const init = () => {
-      playerRef.current = new window.YT.Player("yt-audio", {
-        videoId: VIDEO_ID,
-        playerVars: {
-          autoplay: 1,
-          controls: 0,
-          loop: 1,
-          playlist: VIDEO_ID,
-          modestbranding: 1,
-          playsinline: 1,
-        },
-        events: {
-          onReady: (e: any) => {
-            // Muted autoplay (browser-allowed)
-            e.target.mute();
-            e.target.setVolume(70);
-            e.target.playVideo();
-            setPlaying(true);
-          },
-          onStateChange: (e: any) => {
-            if (e.data === 1) setPlaying(true);
-            if (e.data === 2) setPlaying(false);
-          },
-        },
-      });
+    const playSong = () => {
+      const audio = audioRef.current;
+      if (!audio) return;
+      audio.volume = 0.72;
+      audio
+        .play()
+        .then(() => {
+          setNeedsTap(false);
+          setPlaying(true);
+        })
+        .catch(() => {
+          setNeedsTap(true);
+          setPlaying(false);
+        });
     };
 
-    if (window.YT && window.YT.Player) {
-      init();
-    } else if (!document.getElementById("yt-iframe-api")) {
-      const tag = document.createElement("script");
-      tag.id = "yt-iframe-api";
-      tag.src = "https://www.youtube.com/iframe_api";
-      document.body.appendChild(tag);
-      window.onYouTubeIframeAPIReady = init;
-    } else {
-      window.onYouTubeIframeAPIReady = init;
-    }
-
-    // Expose helpers so the intro button can unmute on user gesture
     window.__loveMusic = {
-      unmute: () => {
-        const p = playerRef.current;
-        if (!p) return;
-        try {
-          p.unMute();
-          p.setVolume(70);
-          p.playVideo();
-          setMuted(false);
-          setPlaying(true);
-        } catch {}
-      },
+      play: playSong,
       toggle: () => {
-        const p = playerRef.current;
-        if (!p) return;
-        if (playing) {
-          p.pauseVideo();
+        const audio = audioRef.current;
+        if (!audio) return;
+        if (!audio.paused) {
+          audio.pause();
           setPlaying(false);
         } else {
-          p.playVideo();
-          setPlaying(true);
+          playSong();
         }
       },
     };
 
-    // Fallback: unmute on first user interaction anywhere
+    playSong();
+
     const onFirstInteract = () => {
-      window.__loveMusic?.unmute();
+      playSong();
       window.removeEventListener("pointerdown", onFirstInteract);
       window.removeEventListener("keydown", onFirstInteract);
     };
@@ -103,26 +66,17 @@ export function MusicPlayer() {
   }, []);
 
   const handleClick = () => {
-    const p = playerRef.current;
-    if (!p) return;
-    if (muted) {
-      window.__loveMusic?.unmute();
-      return;
-    }
-    if (playing) {
-      p.pauseVideo();
+    const audio = audioRef.current;
+    if (!audio) return;
+    if (!audio.paused) {
+      audio.pause();
       setPlaying(false);
     } else {
-      p.playVideo();
-      setPlaying(true);
+      window.__loveMusic?.play();
     }
   };
 
-  const label = muted
-    ? "tap to hear ♡"
-    : playing
-      ? "playing — aram ata hai"
-      : "paused";
+  const label = needsTap ? "tap to hear ♡" : playing ? "playing — aram ata hai" : "paused";
 
   if (!mounted) return null;
 
@@ -139,7 +93,7 @@ export function MusicPlayer() {
         }}
         aria-hidden
       >
-        <div id="yt-audio" />
+        <audio ref={audioRef} src={loveSong} loop preload="auto" playsInline />
       </div>
 
       <motion.button
@@ -152,7 +106,7 @@ export function MusicPlayer() {
         aria-label={label}
         className="glass fixed top-5 right-5 z-[9998] flex items-center gap-2 rounded-full px-4 py-2.5 text-xs tracking-[0.25em] text-blush"
         style={{
-          animation: playing && !muted ? "pulse-glow 2.4s ease-in-out infinite" : undefined,
+          animation: playing ? "pulse-glow 2.4s ease-in-out infinite" : undefined,
         }}
       >
         <span
@@ -160,8 +114,8 @@ export function MusicPlayer() {
           style={{
             background: "var(--rose-glow)",
             boxShadow: "0 0 12px var(--rose-glow)",
-            animation: playing && !muted ? "heartbeat 1.4s ease-in-out infinite" : undefined,
-            opacity: playing && !muted ? 1 : 0.6,
+            animation: playing ? "heartbeat 1.4s ease-in-out infinite" : undefined,
+            opacity: playing ? 1 : 0.6,
           }}
         />
         <span style={{ fontFamily: "var(--font-serif)" }} className="italic">
